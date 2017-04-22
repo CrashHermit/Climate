@@ -1,9 +1,12 @@
 package com.crashhermit.climate.event;
 
+import com.crashhermit.climate.calendar.*;
 import com.crashhermit.climate.growth.Growth;
 import com.crashhermit.climate.utilities.MathUtilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.terraingen.SaplingGrowTreeEvent;
 import net.minecraftforge.event.world.BlockEvent.CropGrowEvent.Pre;
@@ -109,10 +112,16 @@ public class GrowthEvent
         if(!(event.getWorld().getBlockState(event.getPos()).getBlock() instanceof BlockSapling))
             return;
 
-        System.out.println(event.getWorld().getBlockState(event.getPos()));
 
         float random = (float)Math.random();
-        Biome biome = event.getWorld().getBiome(event.getPos());
+        World world = event.getWorld();
+        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+        int meta = event.getWorld().getBlockState(event.getPos()).getBlock().getMetaFromState(event.getWorld().getBlockState(event.getPos()));
+        BlockPos pos = event.getPos();
+
+        Biome biome = event.getWorld().getBiome(pos);
+        int lightLevel = event.getWorld().getBlockState(pos).getBlock().getLightValue(event.getWorld().getBlockState(pos), world, pos);
+        boolean seeSky = event.getWorld().canSeeSky(pos);
 
         float growthFactor = (Growth.growthFactorTemperature(biome) + Growth.growthFactorRainfall(biome)) / 2.0F;
 
@@ -121,13 +130,20 @@ public class GrowthEvent
         {
             event.setResult(Event.Result.DENY);
             System.out.println("DENY");
+            System.out.println(event.getWorld().getBlockState(event.getPos()));
         }
         else
         {
             event.setResult(Event.Result.ALLOW);
             System.out.println("ALLOW");
+            System.out.println(event.getWorld().getBlockState(event.getPos()));
         }
         System.out.println("random: " + random);
+        System.out.println("growth: " + growthFactor);
+        System.out.println("lightlevel: " + lightLevel);
+        System.out.println("seeSky: " + seeSky);
+        System.out.println("block: " + block);
+        System.out.println("meta: " + meta);
         System.out.println("------------------------------------Sapling----------------------");
         System.out.println("                                                                ");
     }
@@ -144,7 +160,13 @@ public class GrowthEvent
     {
 
         float random = (float)Math.random();
-        Biome biome = event.getWorld().getBiome(event.getPos());
+        World world = event.getWorld();
+        Block block = event.getState().getBlock();
+        BlockPos pos = event.getPos();
+
+        Biome biome = event.getWorld().getBiome(pos);
+        int lightLevel = event.getWorld().getBlockState(pos).getBlock().getLightValue(event.getWorld().getBlockState(pos), world, pos);
+        boolean seeSky = event.getWorld().canSeeSky(pos);
 
         float growthFactor = (Growth.growthFactorTemperature(biome) + Growth.growthFactorRainfall(biome)) / 2.0F;
 
@@ -162,6 +184,10 @@ public class GrowthEvent
             System.out.println(event.getWorld().getBlockState(event.getPos()));
         }
         System.out.println("random: " + random);
+        System.out.println("growth: " + growthFactor);
+        System.out.println("lightlevel: " + lightLevel);
+        System.out.println("seeSky: " + seeSky);
+        System.out.println("block: " + block);
         System.out.println("---------------------------------------Crop---------------------");
         System.out.println("                                                                ");
     }

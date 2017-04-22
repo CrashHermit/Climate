@@ -71,14 +71,8 @@ public class Climate
             //Forgot about the case where the biome is normalized to 0
             //need to fix that
             float normalizedTemperature = (mathUtilities.normalizer(entry.getValue(), minTemperature, maxTemperature) * 2.0F) - 1.0F;
-            if(normalizedTemperature == 0.0F)
-            {
-                biomeTemperatureMap.put(entry.getKey(), -1.0F);
-            }
-            else
-            {
-                biomeTemperatureMap.put(entry.getKey(), normalizedTemperature);
-            }
+            biomeTemperatureMap.put(entry.getKey(), normalizedTemperature);
+
 
 
             Biome key = entry.getKey();
@@ -95,14 +89,8 @@ public class Climate
         {
 
             float normalizedRainfall = (mathUtilities.normalizer(entry.getValue(), minRainfall, maxRainfall) * 2.0F) - 1.0F;
-            if(normalizedRainfall == 0.0F)
-            {
-                biomeRainfallMap.put(entry.getKey(), -1.0F);
-            }
-            else
-            {
-                biomeRainfallMap.put(entry.getKey(), normalizedRainfall);
-            }
+            biomeRainfallMap.put(entry.getKey(), normalizedRainfall);
+
 
 
             Biome key = entry.getKey();
@@ -179,7 +167,7 @@ public class Climate
                 getBiomeTemperatureYearlyAmplitude()
                 );
 
-        /*
+
         System.out.println("YearTicks " + Calendar.getYearTicks());
         System.out.println("YearTicksMax " + Calendar.getYearTicksMax());
         System.out.println("xoffset " + getBiomeTemperatureYearlyXOffset());
@@ -187,7 +175,7 @@ public class Climate
         System.out.println("amplitude " + getBiomeTemperatureYearlyAmplitude());
         System.out.println("dailytoyearlyRatio " + getBiomeTemperatureDailyToYearlyRatio());
         System.out.println("biomeTemperatureYearly " + biomeTemperatureYearly);
-        */
+
 
         return (1.0F - getBiomeTemperatureDailyToYearlyRatio()) * biomeTemperatureDaily + (getBiomeTemperatureDailyToYearlyRatio()) * biomeTemperatureYearly;
 
