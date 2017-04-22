@@ -114,10 +114,7 @@ public class Calendar
         }
     }
 
-    public static float getDayTicks()
-    {
-        return dayTicks;
-    }
+    public static float getDayTicks() { return dayTicks; }
     public static float getDayTicksMax() { return dayTicksMax; }
 
     public static float getYearTicks() { return yearTicks; }
