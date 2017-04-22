@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * Created by joshua on 4/20/17.
  * Used to keep track of world time and serve as the main driver for climate
- * INCOMPLETE
- * TODO handle commands from players, different dimensions and servers
+ * It can currently handle time commands from players that change the world time.
+ * TODO cleanup code and make senseable getters
  */
 public class Calendar
 {
@@ -23,72 +23,35 @@ public class Calendar
     private static float dayTicksMax = 24000.0F;
 
     private static float yearTicks = 0.0F;
-    private static float yearTicksMax = 24000.0F * 2.0F; //Config option
+    private static float yearTicksMax = 24000.0F * 4.0F; //Config option, multiplier is how many days a year is
 
-    private static float commandTicks = 0.0F;
-
-    public static void setDayTicks(long ticksIn)
-    {
-        if( ((int)ticksIn % (int)dayTicksMax) == 0 )
-        {
-            dayTicks = 0.0F;
-        }
-        else
-        {
-            dayTicks = ticksIn;
-        }
-
-    }
-
-    public static void setYearTicks(long ticksIn)
-    {
-
-        if( (int)ticksIn % (int)yearTicksMax == 0 )
-        {
-            yearTicks = 0.0F;
-        }
-        else
-        {
-            yearTicks = ticksIn;
-        }
-    }
 
     public static void setYearTicksMax(int yearTicksMaxIn ) { yearTicksMax = dayTicksMax * (float)yearTicksMaxIn; }
-
-    public static float getDayTicks()
-    {
-        return dayTicks;
-    }
-    public static float getDayTicksMax() { return dayTicksMax; }
-
-    public static float getYearTicks() { return yearTicks; }
-    public static float getYearTicksMax() {return yearTicksMax; }
-
-    @SubscribeEvent
-    public void commandTime (CommandEvent event)
-    {
-
-
-    }
-
 
     @SubscribeEvent
     public void calendarTime(WorldTickEvent event)
     {
-        if(event.phase == TickEvent.Phase.END && event.world.provider.getDimension() == 0)
+        if(event.phase == TickEvent.Phase.START && event.world.provider.getDimension() == 0)
         {
             long ticksPre = event.world.getWorldTime();
            // System.out.println("PRE: " + ticksPre);
 
+
+            dayTicks++;
+
             if( (ticksPre % dayTicksMax) == 0 )
             {
                 dayTicks = 0.0F;
-                System.out.println("FIREDAY");
             }
-            if( (ticksPre - ticksPost) > 1)
+            else if( (ticksPre - ticksPost) > 1)
             {
-                dayTicks += ticksPre - ticksPost;
+                dayTicks += ticksPre - ticksPost - 1;
             }
+            else if( (ticksPost - ticksPre) > 1)
+            {
+                dayTicks -= ticksPost - ticksPre + 1;
+            }
+
             if ( dayTicks / dayTicksMax > 1)
             {
                 do
@@ -98,19 +61,32 @@ public class Calendar
                 while(dayTicks / dayTicksMax > 1);
             }
 
+            if( dayTicks < 0.0F && ticksPre == 0.0F)
+            {
+                dayTicks = 0.0F;
+            }
+            else
+            {
+                dayTicks = Math.abs(dayTicks);
+            }
 
-                dayTicks++;
 
+
+            yearTicks++;
 
             if( ticksPre % yearTicksMax == 0 )
             {
                 yearTicks = 0.0F;
-                System.out.println("FIREYEAR");
             }
-            if( (ticksPre - ticksPost) > 1)
+            else if( (ticksPre - ticksPost) > 1)
             {
-                yearTicks += ticksPre - ticksPost;
+                yearTicks += ticksPre - ticksPost - 1;
             }
+            else if( (ticksPost - ticksPre) > 1)
+            {
+                yearTicks -= ticksPost - ticksPre + 1;
+            }
+
             if ( (yearTicks / yearTicksMax) > 1 )
             {
                 do
@@ -120,34 +96,31 @@ public class Calendar
                 while(yearTicks / yearTicksMax > 1);
             }
 
-                yearTicks++;
+            if( yearTicks < 0.0F && ticksPre == 0.0F)
+            {
+                yearTicks = 0.0F;
+            }
+            else
+            {
+                yearTicks = Math.abs(yearTicks);
+            }
+
 
 
             ticksPost = event.world.getWorldTime();
-            //System.out.println("POST: " + ticksPost);
 
-            System.out.println("ticks:dayTicks:YearTicks " + ticksPost + ":" + dayTicks + ":" + yearTicks);
+
+            //System.out.println("ticks:dayTicks:YearTicks " + ticksPre + ":" + dayTicks + ":" + yearTicks);
         }
-
-
-
-
-        /*
-        if((yearTicks == yearTicksMax) && !(yearTicks < 0) && !(yearTicks > yearTicksMax))
-        {
-            yearTicks = 0;
-        }
-        else if (yearTicks < 0)
-        {
-
-        }
-        else if (yearTicks > yearTicksMax)
-        {
-
-        }
-
-        yearTicks++;
-        */
     }
+
+    public static float getDayTicks()
+    {
+        return dayTicks;
+    }
+    public static float getDayTicksMax() { return dayTicksMax; }
+
+    public static float getYearTicks() { return yearTicks; }
+    public static float getYearTicksMax() {return yearTicksMax; }
 
 }
