@@ -68,9 +68,18 @@ public class Climate
 
         for (Map.Entry<Biome, Float> entry : biomeTemperatureMap.entrySet())
         {
-
+            //Forgot about the case where the biome is normalized to 0
+            //need to fix that
             float normalizedTemperature = (mathUtilities.normalizer(entry.getValue(), minTemperature, maxTemperature) * 2.0F) - 1.0F;
-            biomeTemperatureMap.put(entry.getKey(), normalizedTemperature);
+            if(normalizedTemperature == 0.0F)
+            {
+                biomeTemperatureMap.put(entry.getKey(), -1.0F);
+            }
+            else
+            {
+                biomeTemperatureMap.put(entry.getKey(), normalizedTemperature);
+            }
+
 
             Biome key = entry.getKey();
             Float value = entry.getValue();
@@ -86,7 +95,15 @@ public class Climate
         {
 
             float normalizedRainfall = (mathUtilities.normalizer(entry.getValue(), minRainfall, maxRainfall) * 2.0F) - 1.0F;
-            biomeRainfallMap.put(entry.getKey(), normalizedRainfall);
+            if(normalizedRainfall == 0.0F)
+            {
+                biomeRainfallMap.put(entry.getKey(), -1.0F);
+            }
+            else
+            {
+                biomeRainfallMap.put(entry.getKey(), normalizedRainfall);
+            }
+
 
             Biome key = entry.getKey();
             Float value = entry.getValue();

@@ -23,7 +23,7 @@ import java.util.*;
  */
 public class GrowthEvent
 {
-    
+    /*
     public static List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
     public static List<Block> blocks = ForgeRegistries.BLOCKS.getValues();
     public static HashMap<Integer, Float> biomeTemperatureMap = new HashMap<Integer, Float>();
@@ -95,7 +95,7 @@ public class GrowthEvent
             System.out.println("BlockID:Name     " + key + " : " + value);
         }
     }
-
+    */
 
     /*****************************************
      * The event that detects sapling growth and will deny or allow based on
