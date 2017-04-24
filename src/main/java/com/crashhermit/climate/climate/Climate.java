@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class Climate
 {
-    private static List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
-    private static HashMap<Biome, Float> biomeTemperatureMap = new HashMap<Biome, Float>();
+    public static List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
+    public static HashMap<Biome, Float> biomeTemperatureMap = new HashMap<Biome, Float>();
     private static HashMap<Biome, Float> biomeRainfallMap = new HashMap<Biome, Float>();
     private static MathUtilities mathUtilities = new MathUtilities();
 

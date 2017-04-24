@@ -2,10 +2,14 @@ package com.crashhermit.climate.growth;
 
 import com.crashhermit.climate.climate.Climate;
 import com.crashhermit.climate.utilities.MathUtilities;
+import com.google.common.collect.HashMultimap;
 import net.minecraft.block.Block;
+import net.minecraft.block.IGrowable;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +26,7 @@ public class Growth
 
     private static List<Block> blocks = ForgeRegistries.BLOCKS.getValues();
     private static HashMap<Integer, Block> blockMap = new HashMap<Integer, Block>();
+    private static HashMultimap<Block, Float> blockMaps = HashMultimap.create();
 
     /**
      * Save this block of code for later, it will be used to generate a map of viable blocks
@@ -32,20 +37,24 @@ public class Growth
 
         for(int i = 0; i < blocks.size(); i++)
         {
-            int blockID = Block.getIdFromBlock(blocks.get(i));
-            Block blockName = Block.getBlockById(blockID);
-
-            blockMap.put(blockID, blockName);
+            if (blocks.get(i) instanceof IGrowable || blocks.get(i) instanceof IPlantable)
+            {
+                blockMaps.put(blocks.get(i), 1.0F);
+                blockMaps.put(blocks.get(i), 2.0F);
+                blocks.get(i).setTickRandomly(false);
+            }
         }
 
-        for (Map.Entry<Integer,Block> entry : blockMap.entrySet()) {
+        for (Map.Entry entry : blockMaps.entries()) {
 
-            Integer key = entry.getKey();
-            Block value = entry.getValue();
+            Object key = entry.getKey();
+            Object value = entry.getValue();
 
             System.out.println("BlockID:Name     " + key + " : " + value);
         }
     }
+
+
 
     public static float growthFactorTemperature(Biome biome)
     {

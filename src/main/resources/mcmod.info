@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "climate",
+  "name": "Climate",
+  "description": "A mod that affects crop growth based on climate",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["CrashHermit"],
+  "credits": "Just me for now",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
