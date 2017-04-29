@@ -1,15 +1,8 @@
 package com.crashhermit.climate.calendar;
 
-import com.crashhermit.climate.growth.Growth;
-import net.minecraft.block.Block;
-import net.minecraft.command.ICommand;
-import net.minecraft.world.World;
-import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-
-import java.util.List;
 
 /**
  * Created by joshua on 4/20/17.
@@ -27,7 +20,6 @@ public class Calendar
     private static float yearTicks = 0.0F;
     private static float yearTicksMax = 24000.0F * 4.0F; //Config option, multiplier is how many days a year is
 
-
     public static void setYearTicksMax(int yearTicksMaxIn ) { yearTicksMax = dayTicksMax * (float)yearTicksMaxIn; }
 
     @SubscribeEvent
@@ -35,14 +27,12 @@ public class Calendar
     {
         if(event.phase == TickEvent.Phase.START && event.world.provider.getDimension() == 0)
         {
-
             long ticksPre = event.world.getWorldTime();
            // System.out.println("PRE: " + ticksPre);
 
-
             dayTicks++;
 
-            if( (ticksPre % dayTicksMax) == 0 )
+            if(ticksPre == dayTicksMax)
             {
                 dayTicks = 0.0F;
             }
@@ -77,7 +67,7 @@ public class Calendar
 
             yearTicks++;
 
-            if( ticksPre % yearTicksMax == 0 )
+            if( ticksPre == yearTicksMax )
             {
                 yearTicks = 0.0F;
             }
@@ -113,7 +103,7 @@ public class Calendar
             ticksPost = event.world.getWorldTime();
 
 
-            //System.out.println("ticks:dayTicks:YearTicks " + ticksPre + ":" + dayTicks + ":" + yearTicks);
+            //System.out.println("ticks:dayTicks:YearTicks   " + ticksPre + ":" + dayTicks + ":" + yearTicks);
         }
     }
 

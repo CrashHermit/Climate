@@ -58,7 +58,7 @@ public class MathUtilities {
          polynomialFlipped:     inverts the shape of the graph, for a U shaped graph will be turned upside down when this is true, values true or false
          *************************************************************************************************/
 
-        public float quadraticFunction(float polynomialMultiplier, boolean polynomialFlipped, int polynomialDegree, float polynomialXValue, float polynomialXOffset, float polynomialYOffset)
+        public float quadraticFunction(float polynomialMultiplier, boolean polynomialFlipped, float polynomialDegree, float polynomialXValue, float polynomialXOffset, float polynomialYOffset)
         {
             float quadraticFunction = 1.0F;
             polynomialXValue = clampFloat(polynomialXValue, -1.0F, 1.0F);

@@ -20,7 +20,7 @@ public class Climate
 {
     public static List<Biome> biomes = ForgeRegistries.BIOMES.getValues();
     public static HashMap<Biome, Float> biomeTemperatureMap = new HashMap<Biome, Float>();
-    private static HashMap<Biome, Float> biomeRainfallMap = new HashMap<Biome, Float>();
+    public static HashMap<Biome, Float> biomeRainfallMap = new HashMap<Biome, Float>();
     private static MathUtilities mathUtilities = new MathUtilities();
 
     private static float biomeTemperatureDailyXOffset = 0.0F;
@@ -48,6 +48,7 @@ public class Climate
      * A method used to create a map of all the biomes base temperatures, rainfalls, and normalize them
      * to take on values between -1 and 1
      */
+
     public static void biomeBaseClimate()
     {
 
@@ -100,16 +101,14 @@ public class Climate
         }
     }
 
+
     /****************************************************************
      * A bunch of getters that serve to clamp the values coming in from config files
      * and do basic error checking.
      * TODO create error checking mechanisms to handle bad values from config files.
      */
 
-    public static float getBiomeBaseTemperature(Biome biome)
-    {
-        return biomeTemperatureMap.get(biome);
-    }
+    public static float getBiomeBaseTemperature(Biome biome) { return biomeTemperatureMap.get(biome); }
 
     public static float getBiomeBaseRainfall(Biome biome)
     {
@@ -167,7 +166,7 @@ public class Climate
                 getBiomeTemperatureYearlyAmplitude()
                 );
 
-
+        /*
         System.out.println("YearTicks " + Calendar.getYearTicks());
         System.out.println("YearTicksMax " + Calendar.getYearTicksMax());
         System.out.println("xoffset " + getBiomeTemperatureYearlyXOffset());
@@ -175,6 +174,7 @@ public class Climate
         System.out.println("amplitude " + getBiomeTemperatureYearlyAmplitude());
         System.out.println("dailytoyearlyRatio " + getBiomeTemperatureDailyToYearlyRatio());
         System.out.println("biomeTemperatureYearly " + biomeTemperatureYearly);
+        */
 
 
         return (1.0F - getBiomeTemperatureDailyToYearlyRatio()) * biomeTemperatureDaily + (getBiomeTemperatureDailyToYearlyRatio()) * biomeTemperatureYearly;

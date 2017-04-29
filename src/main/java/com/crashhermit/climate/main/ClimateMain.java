@@ -4,6 +4,7 @@ import com.crashhermit.climate.calendar.Calendar;
 import com.crashhermit.climate.climate.Climate;
 import com.crashhermit.climate.config.Config;
 import com.crashhermit.climate.event.GrowthEvent;
+import com.crashhermit.climate.event.MachineEvent;
 import com.crashhermit.climate.growth.Growth;
 import com.crashhermit.climate.proxy.CommonProxy;
 import com.crashhermit.climate.tab.CreativeTabClimate;
@@ -49,10 +50,10 @@ public class ClimateMain
     {
         MinecraftForge.EVENT_BUS.register(new Calendar());
         MinecraftForge.EVENT_BUS.register(new GrowthEvent());
+        MinecraftForge.EVENT_BUS.register(new MachineEvent());
         MinecraftForge.TERRAIN_GEN_BUS.register(new GrowthEvent());
         MinecraftForge.ORE_GEN_BUS.register(new GrowthEvent());
         Climate.biomeBaseClimate();
-        Growth.blockMap();
         Config.loadConfig();
         proxy.postInit(event);
     }
